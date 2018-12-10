@@ -1,19 +1,36 @@
-#!/usr/bin/python
+import sqlite3
 
-import MySQLdb
+conn = sqlite3.connect('flask.db')
 
-# Open database connection
-db = MySQLdb.connect("localhost","testuser","test123","TESTDB" )
+c = conn.cursor()
 
-# prepare a cursor object using cursor() method
-cursor = db.cursor()
+def create_table():
+    c.execute("CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, email VARCHAR, password TEXT)")
 
-# execute SQL query using execute() method.
-cursor.execute("SELECT VERSION()")
+def data_entry():
+    c.execute("INSERT INTO users VALUES(null, 'rodrigo', 'rodrigocamarena@hotmail.es', '12345')")
+    conn.commit()
+    c.close()
+    conn.close()
 
-# Fetch a single row using fetchone() method.
-data = cursor.fetchone()
-print('database version: ',data)
+def print_table():
+    c.execute("SELECT * FROM users")
+    results = c.fetchall()
+    for i in results:
+        print(i[0])
+        print(i[1])
+        print(i[2])
+        print(i[3])
+def variable_entry():
+    name = 'rodrigo89'
+    password = '1234567'
+    email = 'kamarena78@gmail.com'
 
-# disconnect from server
-db.close()
+    c.execute("INSERT INTO users (id, username, email, password) VALUES (NULL, ?, ?, ?)", (name, email, password))
+    conn.commit()
+
+
+
+print_table()
+
+
