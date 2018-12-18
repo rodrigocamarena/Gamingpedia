@@ -7,6 +7,7 @@ import random
 black = (0, 0, 0)
 gray = (122, 122, 122)
 white = (255, 255, 255)
+yellow=(255,255,0)
 
 red = (200, 0, 0)
 light_red = (255, 0, 0)
@@ -28,7 +29,6 @@ display_height = 800
 game_display = pygame.display.set_mode((display_width, display_height))
 clock = pygame.time.Clock()
 
-score_game = 0
 
 def game_init():
     pygame.init()
@@ -36,7 +36,7 @@ def game_init():
 #Score
 def display(count, x, y, message_format='Text: %d'):
     font = pygame.font.SysFont("Arial", 40)
-    text = font.render(message_format % count, True, black)
+    text = font.render(message_format % count, True, yellow)
     game_display.blit(text, (x, y))
 
 
@@ -47,7 +47,7 @@ def load_image(x, y, image_name):
 
 #TYPE OF TEXT
 def text_object(text, font):
-    textSurface = font.render(text, True, black)
+    textSurface = font.render(text, True, yellow)
     return textSurface, textSurface.get_rect()
 
 #DISPLAY TO SHOW MESSAGES
@@ -119,7 +119,7 @@ def game_intro():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-        game_display.fill(gray)
+        game_display.fill(black)
 
         largeText = pygame.font.SysFont("Arial", 80)
         textSurf, textRect = text_object("FAST & FURIOUS", largeText)
@@ -134,7 +134,7 @@ def game_intro():
 
 #GAME LOOP
 def game_loop():
-    global score_game
+    score_game=0
 
 
     x = (display_width * 0.45)
@@ -144,7 +144,7 @@ def game_loop():
 
 
     thing_width = 70
-    thing_height = 140
+    thing_height = 160
 
     thing_startx = random.randrange(100, display_width - 200)
     thing_starty = -600
@@ -176,10 +176,10 @@ def game_loop():
 
         x += x_change
 
-        game_display.fill(gray)
+        game_display.fill(black)
 
-        load_image(thing_startx, thing_starty, 'images/ObstaculoAzul2.png')
-        load_image(x, y, 'images/CocheAzul1.png')
+        load_image(thing_startx, thing_starty, 'ObstaculoAzul2.png')
+        load_image(x, y, 'CocheAzul2.png')
 
         thing_starty += thing_speed
         lineY += line_speed
@@ -195,7 +195,7 @@ def game_loop():
             thing_starty = 0 - thing_height
             thing_startx = random.randrange(170, display_width - thing_width - 150)
             score_game += 1  #INCREASE SCORE WHEN DODGING
-            thing_speed += 1 / 20  # ACCELERATE
+            thing_speed += 1 / 5  # ACCELERATE
 
         if lineY > display_height:
             lineY = 0 - lineH
@@ -221,5 +221,5 @@ def main():
     quit()
 
 
-if __name__ == '__main__':
+if _name_ == '_main_':
     main()
